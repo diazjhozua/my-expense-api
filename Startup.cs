@@ -29,6 +29,9 @@ namespace my_expense_api
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+
+            services.AddScoped<IAuthRepository, AuthRepository>();
+
             services.AddAutoMapper(typeof(Startup));
         }
 
