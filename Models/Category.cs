@@ -17,6 +17,8 @@ namespace my_expense_api.Models
         [StringLength(300)]
         public string Name { get; set; }
 
+        public float Limit { get; set; }
+
         public DateTime DateCreated { get; set; } 
         
         public DateTime? DateModified { get; set; }
