@@ -14,6 +14,6 @@ namespace my_expense_api.Services.CategoryService
         Task<ServiceResponse<CategoryDTO>> GetByIdAsync(int id);
         Task<ServiceResponse<CategoryDTO>> AddAsync(CategoryInputDTO categoryInput);
         Task<ServiceResponse<CategoryDTO>> UpdateAsync(int id, CategoryInputDTO categoryInput);
-        Task<ServiceResponse<List<CategoryDTO>>> DeleteAsync(int id);                
+        Task<ServiceResponse<bool>> DeleteAsync(int id);                
     }
 }

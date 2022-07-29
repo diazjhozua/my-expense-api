@@ -59,7 +59,7 @@ namespace my_expense_api.Services.CategoryService
       {
          ServiceResponse<CategoryDTO> serviceResponse = new ServiceResponse<CategoryDTO>();
 
-         Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id &&  c.User.Id == GetUserId());
+         Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.User.Id == GetUserId());
          if (dbCategory != null) {
             dbCategory.Name = categoryInput.Name;
             dbCategory.Limit = categoryInput.Limit;
@@ -73,29 +73,18 @@ namespace my_expense_api.Services.CategoryService
          return serviceResponse;
       }
 
-      public async Task<ServiceResponse<List<CategoryDTO>>> DeleteAsync(int id)
+      public async Task<ServiceResponse<bool>> DeleteAsync(int id)
       {
-         ServiceResponse<List<CategoryDTO>> serviceResponse = new ServiceResponse<List<CategoryDTO>>();
+         ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
 
-         try {
-            Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c => c.User.Id == GetUserId() && c.Id == id);
-            if(dbCategory != null)
-            {
-               _context.Categories.Remove(dbCategory);
-               await _context.SaveChangesAsync();
-               serviceResponse.Data = (_context.Categories.Where(c => c.User.Id == GetUserId()).Select(c => _mapper.Map<CategoryDTO>(c))).ToList();
-            }
-            else {
-               serviceResponse.Success = false;
-               serviceResponse.Messsage = "Category not found";
-            }
-
-         } catch (Exception ex) {
-            serviceResponse.Success = false;
-            serviceResponse.Messsage = ex.Message;
+         Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c => c.User.Id == GetUserId() && c.Id == id);
+         if(dbCategory != null)
+         {
+            _context.Categories.Remove(dbCategory);
+            await _context.SaveChangesAsync();
+            serviceResponse.Data = true;
          }
          return serviceResponse;
       }
-
    }
 }
