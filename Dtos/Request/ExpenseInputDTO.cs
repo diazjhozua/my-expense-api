@@ -12,13 +12,16 @@ namespace my_expense_api.Dtos.Request
         [Required]
         [StringLength(50)]
         public string Name { get; set; }    
+        
+        [Required]
+        [Range(1, float.MaxValue)]
+        public float Cost { get; set; }  
 
         [Required]
         [EnumDataType(typeof(ExpenseType))]
         [Display(Name = "Disease Type")]
         public ExpenseType Type { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string Description { get; set; }   
 
@@ -27,8 +30,6 @@ namespace my_expense_api.Dtos.Request
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        [Required]
-        [Range(1, float.MaxValue)]
-        public float Limit { get; set; }              
+            
     }
 }
