@@ -51,6 +51,8 @@ namespace my_expense_api
                         .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                         ValidateIssuer = false,
                         ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                 };
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
