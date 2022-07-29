@@ -20,6 +20,7 @@ namespace my_expense_api.Configuration
         public sealed class Entities
         {
             public const string Category = "Category";
+            public const string Expense = "Expense";
         }        
     }
 }

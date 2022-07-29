@@ -19,6 +19,7 @@ using my_expense_api.Components.Handlers;
 using my_expense_api.Components.Handlers.Others;
 using my_expense_api.Data;
 using my_expense_api.Services.CategoryService;
+using my_expense_api.Services.ExpenseService;
 
 namespace my_expense_api
 {
@@ -50,6 +51,8 @@ namespace my_expense_api
                         .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                         ValidateIssuer = false,
                         ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                 };
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -57,6 +60,7 @@ namespace my_expense_api
             services.AddScoped<IUtilityService, UtilityService>();
                         
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

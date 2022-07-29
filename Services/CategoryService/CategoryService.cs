@@ -31,7 +31,7 @@ namespace my_expense_api.Services.CategoryService
       public async Task<ServiceResponse<List<CategoryDTO>>> GetAllAsync()
       {
          ServiceResponse<List<CategoryDTO>> serviceResponse = new ServiceResponse<List<CategoryDTO>>();
-         List<Category> dbCategories = await _context.Categories.ToListAsync();
+         List<Category> dbCategories = await _context.Categories.Where(c => c.User.Id == GetUserId()).ToListAsync();
          serviceResponse.Data = (dbCategories.Select(c => _mapper.Map<CategoryDTO>(c))).ToList();
          return serviceResponse;
       }
@@ -39,7 +39,7 @@ namespace my_expense_api.Services.CategoryService
       public async Task<ServiceResponse<CategoryDTO>> GetByIdAsync(int id)
       {
          ServiceResponse<CategoryDTO> serviceResponse = new ServiceResponse<CategoryDTO>();
-         Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c=> c.Id == id);
+         Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c=> c.Id == id && c.User.Id == GetUserId());
          serviceResponse.Data = _mapper.Map<CategoryDTO>(dbCategory);
          return serviceResponse;
       }
