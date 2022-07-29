@@ -12,7 +12,6 @@ namespace my_expense_api.Components.Handlers.Others
         {
             dynamic[] messages = { null };
             IDictionary<string, object> result = new ExpandoObject();
-            result.Add("status", code);
             var title = "";
             switch (code)
             {
@@ -28,7 +27,8 @@ namespace my_expense_api.Components.Handlers.Others
                     title = "Record already exists.";
                     break;
             }
-            if (!string.IsNullOrEmpty(title)) result.Add("title", title);
+            // if (!string.IsNullOrEmpty(title)) result.Add("title", title);
+            result.Add("success", false);
             if (messages[0] != null) result.Add("message", messages);
             else result.Add("message", message);
             if (data != null) result.Add("data", data);

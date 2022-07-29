@@ -23,10 +23,6 @@ namespace my_expense_api.Models
         
         public DateTime? DateModified { get; set; }
 
-        public string ArchiveReason { get; set; } = null;
-
-        public bool IsArchived { get; set; } = false;
-
         public User User { get; set; }
     }
 }
