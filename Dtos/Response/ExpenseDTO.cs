@@ -7,7 +7,7 @@ using my_expense_api.Models;
 
 namespace my_expense_api.Dtos.Response
 {
-    public class ExpenseDTO : BaseDTO
+    public class ExpenseDTO  : BaseDTO
     {
         public string Name { get; set; }  
 

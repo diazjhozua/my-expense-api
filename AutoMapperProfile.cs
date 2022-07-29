@@ -14,8 +14,10 @@ namespace my_expense_api
         public AutoMapperProfile()
         {
             CreateMap<Category, CategoryDTO>();
+            CreateMap<Category, SimpleCategoryDTO>();
             CreateMap<CategoryInputDTO, Category>();
-
+            CreateMap<Expense, ExpenseDTO>();
+            CreateMap<ExpenseInputDTO, Expense>();
         }        
     }
 }

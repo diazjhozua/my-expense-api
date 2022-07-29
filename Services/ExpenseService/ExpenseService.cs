@@ -19,11 +19,16 @@ namespace my_expense_api.Services.ExpenseService
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+        public ExpenseService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor)
+        {
+            _context = context;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+        }
         public async Task<ServiceResponse<List<ExpenseDTO>>> GetAllAsync()
         {
             ServiceResponse<List<ExpenseDTO>> serviceResponse = new ServiceResponse<List<ExpenseDTO>>();
-            List<Expense> dbExpenses = await _context.Expenses.Where(c => c.User.Id == GetUserId()).ToListAsync();
+            List<Expense> dbExpenses = await _context.Expenses.Include(x=> x.Category).Where(c => c.User.Id == GetUserId()).ToListAsync();
             serviceResponse.Data = (dbExpenses.Select(c => _mapper.Map<ExpenseDTO>(c))).ToList();
             return serviceResponse;
         }
@@ -38,11 +43,17 @@ namespace my_expense_api.Services.ExpenseService
         public async Task<ServiceResponse<ExpenseDTO>> AddAsync(ExpenseInputDTO expenseInput)
         {
             ServiceResponse<ExpenseDTO> serviceResponse = new ServiceResponse<ExpenseDTO>();
-            Expense newExpense = _mapper.Map<Expense>(expenseInput);
-            newExpense.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == GetUserId());
-            await _context.Expenses.AddAsync(newExpense);
-            await _context.SaveChangesAsync();
-            serviceResponse.Data = _mapper.Map<ExpenseDTO>(newExpense);
+            Category dbCategory = await _context.Categories.FirstOrDefaultAsync(c=> c.Id == expenseInput.CategoryId &&  c.User.Id == GetUserId());
+            if (dbCategory != null) 
+            {
+                Expense newExpense = _mapper.Map<Expense>(expenseInput);
+                newExpense.Category = dbCategory;
+                newExpense.User = await _context.Users.FirstOrDefaultAsync(u => u.Id == GetUserId());
+                await _context.Expenses.AddAsync(newExpense);
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = _mapper.Map<ExpenseDTO>(newExpense);
+            }
+
             return serviceResponse;
         }
 
