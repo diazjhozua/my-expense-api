@@ -35,8 +35,14 @@ namespace my_expense_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+
+            services.AddCors(options => options.AddDefaultPolicy(
+                builder => builder.AllowAnyOrigin().AllowAnyHeader()
+            ));
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -74,6 +80,8 @@ namespace my_expense_api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
             
