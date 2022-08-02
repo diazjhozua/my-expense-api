@@ -12,6 +12,15 @@ namespace my_expense_api.Dtos.Request
         [StringLength(100)]
         [Components.Validators.EmailAddressAttribute]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string FirstName {get; set; }
+        
+        [Required]
+        [StringLength(100)]
+        public string LastName {get; set; }
+
         [StringLength(30)]
         public string Password { get; set; }        
     }

@@ -13,6 +13,7 @@ namespace my_expense_api
     {
         public AutoMapperProfile()
         {
+            CreateMap<User, UserDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<Category, SimpleCategoryDTO>();
             CreateMap<CategoryInputDTO, Category>();
