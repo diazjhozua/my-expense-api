@@ -134,7 +134,7 @@ namespace my_expense_api.Data
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(5),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = creds
             };
 
