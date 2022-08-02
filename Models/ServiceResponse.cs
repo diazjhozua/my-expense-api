@@ -11,6 +11,6 @@ namespace my_expense_api.Models
 
         public bool Success { get; set; } = true;
 
-        public string Messsage { get; set; } = null;
+        public string Message { get; set; } = null;
     }
 }

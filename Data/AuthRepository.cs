@@ -41,13 +41,14 @@ namespace my_expense_api.Data
             User user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(email.ToLower()));
             if (user ==null) {
             response.Success = false;
-            response.Messsage = "Invalid credentials";
+            response.Message = "Invalid credentials";
             } else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) 
             {
             response.Success = false;
-            response.Messsage = "Invalid credentials";
+            response.Message = "Invalid credentials";
             } else 
             {
+                response.Message = "Login success";
                 response.Data = CreateToken(user);
             }
 
@@ -68,7 +69,7 @@ namespace my_expense_api.Data
 
             if(await UserExists(user.Email)) {
             response.Success = false;
-            response.Messsage = "Email already exists";
+            response.Message = "Email already exists";
             return response;
             }
 
@@ -133,7 +134,7 @@ namespace my_expense_api.Data
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddMinutes(5),
                 SigningCredentials = creds
             };
 
