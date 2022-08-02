@@ -5,9 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using my_expense_api.Dtos.Request;
+using my_expense_api.Dtos.Response;
 using my_expense_api.Models;
 
 namespace my_expense_api.Data
@@ -17,10 +21,18 @@ namespace my_expense_api.Data
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthRepository(DataContext context, IConfiguration configuration)
+        private readonly IMapper _mapper;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+      
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
         
         public async Task<ServiceResponse<string>> Login(string email, string password)
@@ -40,6 +52,14 @@ namespace my_expense_api.Data
             }
 
             return response;
+        }
+
+        public async Task<ServiceResponse<UserDTO>> Me()
+        {
+            ServiceResponse<UserDTO> serviceResponse = new ServiceResponse<UserDTO>();
+            User dbUser = await _context.Users.FirstOrDefaultAsync(c=> c.Id == GetUserId());
+            serviceResponse.Data = _mapper.Map<UserDTO>(dbUser);
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<int>> Register(User user, string password)
@@ -113,7 +133,7 @@ namespace my_expense_api.Data
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddSeconds(1),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = creds
             };
 
@@ -121,6 +141,8 @@ namespace my_expense_api.Data
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-        }        
+        }
+
+
    }
 }
