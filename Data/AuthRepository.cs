@@ -78,10 +78,17 @@ namespace my_expense_api.Data
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+
             await _context.Users.AddAsync(user);
+            await _context.Categories.AddAsync(new Category{Name= "School", Limit=3200, User=user});
+            await _context.Categories.AddAsync(new Category{Name= "General", Limit=3200, User=user});
+            await _context.Categories.AddAsync(new Category{Name= "Work", Limit=3200, User=user});
+            await _context.Categories.AddAsync(new Category{Name= "Hobby", Limit=3200, User=user});
+            await _context.Categories.AddAsync(new Category{Name= "Emergency", Limit=3200, User=user});
             await _context.SaveChangesAsync();
             
             response.Data = user.Id;
+
             return response;
         }
 
