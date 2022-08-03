@@ -150,7 +150,5 @@ namespace my_expense_api.Data
 
             return tokenHandler.WriteToken(token);
         }
-
-
    }
 }

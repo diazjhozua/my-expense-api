@@ -10,6 +10,7 @@ using my_expense_api.Data;
 using my_expense_api.Dtos.Request;
 using my_expense_api.Dtos.Response;
 using my_expense_api.Models;
+using static my_expense_api.Configuration.AppSettings;
 
 namespace my_expense_api.Services.ExpenseService
 {
@@ -52,6 +53,7 @@ namespace my_expense_api.Services.ExpenseService
                 await _context.Expenses.AddAsync(newExpense);
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<ExpenseDTO>(newExpense);
+                serviceResponse.Message = "New " + Entities.Expense + " has been created successfully"; 
             }
 
             return serviceResponse;
@@ -77,6 +79,7 @@ namespace my_expense_api.Services.ExpenseService
                     await _context.SaveChangesAsync();
 
                     serviceResponse.Data = _mapper.Map<ExpenseDTO>(dbExpense);
+                    serviceResponse.Message = Entities.Expense + " has been updated successfully"; 
                 }
 
             }
@@ -93,6 +96,7 @@ namespace my_expense_api.Services.ExpenseService
                 _context.Expenses.Remove(dbExpense);
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = true;
+                serviceResponse.Message = Entities.Expense + " has been deleted successfully"; 
             }
             return serviceResponse;
         }

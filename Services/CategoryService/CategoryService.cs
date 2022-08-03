@@ -10,6 +10,7 @@ using my_expense_api.Data;
 using my_expense_api.Dtos.Request;
 using my_expense_api.Dtos.Response;
 using my_expense_api.Models;
+using static my_expense_api.Configuration.AppSettings;
 
 namespace my_expense_api.Services.CategoryService
 {
@@ -52,6 +53,7 @@ namespace my_expense_api.Services.CategoryService
          await _context.Categories.AddAsync(newCategory);
          await _context.SaveChangesAsync();
          serviceResponse.Data = _mapper.Map<CategoryDTO>(newCategory);
+         serviceResponse.Message = "New " + Entities.Category + " has been created successfully"; 
          return serviceResponse;
       }
 
@@ -69,6 +71,7 @@ namespace my_expense_api.Services.CategoryService
             await _context.SaveChangesAsync();
 
             serviceResponse.Data = _mapper.Map<CategoryDTO>(dbCategory);
+            serviceResponse.Message = Entities.Category + " has been updated successfully"; 
          }
          return serviceResponse;
       }
@@ -83,6 +86,7 @@ namespace my_expense_api.Services.CategoryService
             _context.Categories.Remove(dbCategory);
             await _context.SaveChangesAsync();
             serviceResponse.Data = true;
+            serviceResponse.Message = Entities.Category + " has been deleted successfully"; 
          }
          return serviceResponse;
       }
