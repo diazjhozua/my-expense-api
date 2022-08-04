@@ -29,7 +29,7 @@ namespace my_expense_api.Services.ExpenseService
         public async Task<ServiceResponse<List<ExpenseDTO>>> GetAllAsync()
         {
             ServiceResponse<List<ExpenseDTO>> serviceResponse = new ServiceResponse<List<ExpenseDTO>>();
-            List<Expense> dbExpenses = await _context.Expenses.Include(x=> x.Category).Where(c => c.User.Id == GetUserId()).ToListAsync();
+            List<Expense> dbExpenses = await _context.Expenses.Include(x=> x.Category).Where(c => c.User.Id == GetUserId()).OrderByDescending(c=> c.Date).ToListAsync();
             serviceResponse.Data = (dbExpenses.Select(c => _mapper.Map<ExpenseDTO>(c))).ToList();
             return serviceResponse;
         }
