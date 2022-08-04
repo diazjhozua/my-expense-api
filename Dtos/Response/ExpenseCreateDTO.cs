@@ -8,6 +8,6 @@ namespace my_expense_api.Dtos.Response
     public class ExpenseCreateDTO
     {
         public List<CategoryDTO> Categories { get; set; }
-        public Dictionary<string, int> types { get; set; }
+        public List<string> types { get; set; }
     }
 }

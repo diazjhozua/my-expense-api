@@ -51,7 +51,8 @@ namespace my_expense_api.Controllers
             ExpenseCreateDTO expenseCreateDTO = new ExpenseCreateDTO();
 
             expenseCreateDTO.Categories =  (await _categoryService.GetAllAsync()).Data;
-            expenseCreateDTO.types =  ((ExpenseType[])Enum.GetValues(typeof(ExpenseType))).ToDictionary(k => _handler.Utility.SplitCamelCase(k.ToString()), v => (int)v);
+            // expenseCreateDTO.types =  ((ExpenseType[])Enum.GetValues(typeof(ExpenseType))).ToDictionary(k => _handler.Utility.SplitCamelCase(k.ToString()), v => (int)v);
+            expenseCreateDTO.types = ((ExpenseType[])Enum.GetValues(typeof(ExpenseType))).Select(c => c.ToString()).ToList();
 
             serviceResponse.Data = expenseCreateDTO;
 

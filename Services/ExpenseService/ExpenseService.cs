@@ -36,7 +36,7 @@ namespace my_expense_api.Services.ExpenseService
         public async Task<ServiceResponse<ExpenseDTO>> GetByIdAsync(int id)
         {
             ServiceResponse<ExpenseDTO> serviceResponse = new ServiceResponse<ExpenseDTO>();
-            Expense dbExpense = await _context.Expenses.FirstOrDefaultAsync(c=> c.Id == id && c.User.Id == GetUserId());
+            Expense dbExpense = await _context.Expenses.Include(x=> x.Category).FirstOrDefaultAsync(c=> c.Id == id && c.User.Id == GetUserId());
             serviceResponse.Data = _mapper.Map<ExpenseDTO>(dbExpense);
             return serviceResponse;
         }
