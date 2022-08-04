@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using my_expense_api.Components.Handlers;
 using my_expense_api.Models;
 
 namespace my_expense_api.Data
 {
     public class AppDbInitializer
     {
-        public async static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env) 
+        public static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env)
         {
             
             using(var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
@@ -24,14 +25,8 @@ namespace my_expense_api.Data
                     if (!context.Users.Any()) {
                         for (int i = 0; i < 5; i++) 
                         {
-
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
-                            // context.Categories.Add(new Category() {Name = "asd", Limit = 3200, UserId = 1 });
+                            var hmac = new System.Security.Cryptography.HMACSHA512();
+                            context.Users.Add(new User() {Email = Faker.Internet.Email(),FirstName = Faker.Name.First(), LastName = Faker.Name.Last(), PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("sample123")), PasswordSalt = hmac.Key });
                         }
                     }
 
@@ -39,5 +34,6 @@ namespace my_expense_api.Data
                 }
             }
         }
+
     }
 }
