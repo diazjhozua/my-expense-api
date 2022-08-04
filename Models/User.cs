@@ -14,7 +14,6 @@ namespace my_expense_api.Models
 
         public string LastName {get; set;}
         
-        public int MyProperty { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
     }
