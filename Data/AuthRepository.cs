@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using my_expense_api.Components.Handlers;
 using my_expense_api.Dtos.Request;
 using my_expense_api.Dtos.Response;
 using my_expense_api.Models;
@@ -24,11 +25,14 @@ namespace my_expense_api.Data
         private readonly IMapper _mapper;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        protected readonly IHandler _handler;
       
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IMapper mapper, IHandler handler)
         {
+            _handler = handler;
             _context = context;
             _mapper = mapper;
             _configuration = configuration;
@@ -73,7 +77,7 @@ namespace my_expense_api.Data
             return response;
             }
 
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            _handler.Utility.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
@@ -98,15 +102,6 @@ namespace my_expense_api.Data
             return true;
             }
             return false;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt) 
-        {
-            using(var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt) 

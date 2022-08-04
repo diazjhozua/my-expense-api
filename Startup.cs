@@ -91,6 +91,8 @@ namespace my_expense_api
             {
                 endpoints.MapControllers();
             });
+
+            // AppDbInitializer.Seed(app, env);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace my_expense_api.Models
 
         public User User { get; set; }
 
+        public int UserId { get; set; }
+
         public List<Expense> Expenses {get; set;}
     }
 }
