@@ -62,7 +62,9 @@ namespace my_expense_api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ExpenseInputDTO expenseInput)
         {
-            return Ok(await _expenseService.AddAsync(expenseInput));
+            ServiceResponse<ExpenseDTO> serviceResponse = await _expenseService.AddAsync(expenseInput);
+            if (serviceResponse.Data == null) return new NotFoundObjectResult(_handler.Utility.FormatObjectResult(404, Entities.Category, new { expenseInput.CategoryId }));
+            return Ok(serviceResponse);
         }
 
         [HttpPut("{id}")]

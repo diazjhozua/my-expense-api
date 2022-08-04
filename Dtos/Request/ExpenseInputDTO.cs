@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using my_expense_api.Components.Validators;
 using my_expense_api.Models;
 
 namespace my_expense_api.Dtos.Request
@@ -30,6 +31,7 @@ namespace my_expense_api.Dtos.Request
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-            
+        [RequiredDate]
+        public DateTime Date { get; set; }     
     }
 }

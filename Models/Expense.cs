@@ -13,5 +13,6 @@ namespace my_expense_api.Models
         public ExpenseType Type {get; set;}
         public User User { get; set; }
         public Category Category { get; set; }   
+        public DateTime Date { get; set; }     
     }
 }
