@@ -40,35 +40,35 @@ namespace my_expense_api
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
 
-            // services.AddCors(options => options.AddDefaultPolicy(
-            //     builder => builder.WithOrigins(Configuration.GetSection("AllowedHost").Value).AllowAnyHeader().AllowAnyMethod()
-            // ));
+            services.AddCors(options => options.AddDefaultPolicy(
+                builder => builder.WithOrigins(Configuration.GetSection("AllowedHost").Value).AllowAnyHeader().AllowAnyMethod()
+            ));
 
             services.AddAutoMapper(typeof(Startup));
 
-            // services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            // .AddJwtBearer(options => 
-            // {
-            //     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-            //     {
-            //         ValidateIssuerSigningKey = true,
-            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-            //             .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-            //             ValidateIssuer = false,
-            //             ValidateAudience = false,
-            //             ValidateLifetime = true,
-            //             ClockSkew = TimeSpan.Zero
-            //     };
-            // });
-            // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            // services.AddScoped<IHandler, Handler>();
-            // services.AddScoped<IUtilityService, UtilityService>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => 
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                        .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                };
+            });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IHandler, Handler>();
+            services.AddScoped<IUtilityService, UtilityService>();
                         
-            // services.AddScoped<ICategoryService, CategoryService>();
-            // services.AddScoped<IExpenseService, ExpenseService>();
-            // services.AddScoped<IAnalyticsService, AnalyticsService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +94,7 @@ namespace my_expense_api
                 endpoints.MapControllers();
             });
             
-            // AppDbInitializer.Seed(app, env);
+            AppDbInitializer.Seed(app, env);
         }
     }
 }
