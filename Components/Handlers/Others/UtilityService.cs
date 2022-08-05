@@ -22,19 +22,19 @@ namespace my_expense_api.Components.Handlers.Others
         {
             dynamic[] messages = { null };
             IDictionary<string, object> result = new ExpandoObject();
-            var title = "";
+            // var title = "";
             switch (code)
             {
                 case 400:
-                    title = "One or more validation errors detected.";
+                    // title = "One or more validation errors detected.";
                     messages[0] = message;
                     break;
                 case 404:
-                    title = "Record does not exist.";
+                    // title = "Record does not exist.";
                     message += " does not exist.";
                     break;
                 case 409:
-                    title = "Record already exists.";
+                    // title = "Record already exists.";
                     break;
             }
             // if (!string.IsNullOrEmpty(title)) result.Add("title", title);
