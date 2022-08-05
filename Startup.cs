@@ -86,7 +86,7 @@ namespace my_expense_api
 
             app.UseRouting();
 
-            // app.UseCors();
+            app.UseCors();
 
             app.UseAuthentication();
             
