@@ -29,7 +29,8 @@ namespace my_expense_api.Controllers
                 new 
                 { 
                     averageExpense = (await _analyticsService.getAverageExpense()).Data, 
-                    // expenseCategoryLimitThisMonth = (await _analyticsService.getAverageExpense()).Data
+                    budgetLimitThisMonth = (await _analyticsService.getBudgetLimitThisMonth()).Data,
+                    expenseCategorySummaryThisMonth = (await _analyticsService.getExpenseCategorySummaryThisMonth()).Data
                 }
             );
         }   

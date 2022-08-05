@@ -10,6 +10,8 @@ namespace my_expense_api.Services.AnalyticsService
     {
         Task<ServiceResponse<dynamic>> getAverageExpense();
         
-        Task<ServiceResponse<dynamic>> getExpenseCategoryLimitRatioThisMonth();
+        Task<ServiceResponse<dynamic>> getBudgetLimitThisMonth();
+
+        Task<ServiceResponse<dynamic>> getExpenseCategorySummaryThisMonth();
     }
 }

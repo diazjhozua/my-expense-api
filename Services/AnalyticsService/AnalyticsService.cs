@@ -28,9 +28,8 @@ namespace my_expense_api.Services.AnalyticsService
         public async Task<ServiceResponse<dynamic>> getAverageExpense()
         {
             ServiceResponse<dynamic> serviceResponse = new ServiceResponse<dynamic>();
-            var expenses =  await _context.Expenses.Where(c => c.UserId == GetUserId()).ToListAsync();
-        
-            serviceResponse.Data = await _context.Expenses.Where(c => c.UserId == 2)
+    
+            serviceResponse.Data = await _context.Expenses.Where(c => c.UserId == GetUserId())
                 .GroupBy(x => 
                     new { 
                     x.Date.Month,       
@@ -44,9 +43,18 @@ namespace my_expense_api.Services.AnalyticsService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<dynamic>> getExpenseCategoryLimitRatioThisMonth()
+        public async Task<ServiceResponse<dynamic>> getBudgetLimitThisMonth()
         {
-            throw new NotImplementedException();
+            ServiceResponse<dynamic> serviceResponse = new ServiceResponse<dynamic>();
+            var categoriesLimitSum = await _context.Categories.Where(c => c.UserId == GetUserId()).SumAsync(c => c.Limit);
+            var expensesSum = await _context.Expenses.Where(c => c.UserId == GetUserId() && c.Date.Month == DateTime.Now.Month).SumAsync(c => c.Cost);
+            serviceResponse.Data = new { totalExpense = expensesSum, totalLimit = categoriesLimitSum};            
+            return serviceResponse;
         }
+
+      public Task<ServiceResponse<dynamic>> getExpenseCategorySummaryThisMonth()
+      {
+         throw new NotImplementedException();
+      }
    }
 }
