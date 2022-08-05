@@ -10,7 +10,7 @@ using my_expense_api.Data;
 namespace my_expense_api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220805144126_Initial")]
+    [Migration("20220805150205_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

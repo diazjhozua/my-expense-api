@@ -20,7 +20,7 @@ namespace my_expense_api.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<DataContext>();
 
-                if (!env.IsProduction())
+                if (true)
                 {
                     if (!context.Users.Any()) {
                         var hmac = new System.Security.Cryptography.HMACSHA512();
