@@ -33,6 +33,24 @@ namespace my_expense_api.Controllers
                     expenseCategorySummaryThisMonth = (await _analyticsService.getExpenseCategorySummaryThisMonth()).Data
                 }
             );
-        }   
+        }
+
+        [HttpGet("averageExpense")]
+        public async Task<IActionResult> GetAverageExpense()
+        {
+            return Ok((await _analyticsService.getAverageExpense()).Data);
+        } 
+
+        [HttpGet("budgetLimitThisMonth")]
+        public async Task<IActionResult> GetBudgetLimitThisMonth()
+        {
+            return Ok((await _analyticsService.getBudgetLimitThisMonth()).Data);
+        }
+
+        [HttpGet("expenseCategorySummaryThisMonth")]
+        public async Task<IActionResult> GetExpenseCategorySummaryThisMonth()
+        {
+            return Ok((await _analyticsService.getExpenseCategorySummaryThisMonth()).Data);
+        }                
     }
 }
