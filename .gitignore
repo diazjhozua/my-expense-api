@@ -38,9 +38,9 @@ bld/
 #wwwroot/
 
 # Sensitive Files
-appsettings.json
-appsettings.Development.json
-appsettings.Staging.json
+# appsettings.json
+# appsettings.Development.json
+# appsettings.Staging.json
 
 
 # Visual Studio 2017 auto generated files
