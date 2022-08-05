@@ -52,9 +52,20 @@ namespace my_expense_api.Services.AnalyticsService
             return serviceResponse;
         }
 
-      public Task<ServiceResponse<dynamic>> getExpenseCategorySummaryThisMonth()
-      {
-         throw new NotImplementedException();
-      }
+        public async Task<ServiceResponse<dynamic>> getExpenseCategorySummaryThisMonth()
+        {
+            ServiceResponse<dynamic> serviceResponse = new ServiceResponse<dynamic>();
+
+            serviceResponse.Data = await _context.Categories.Include(c=> c.Expenses)
+                .Where(c => c.UserId == GetUserId())
+                .Select(s => new
+                {
+                    category =  s.Name,
+                    limit = s.Limit,
+                    expensesMade = s.Expenses.Where(e => e.Date.Month == DateTime.Now.Month).Sum(e => e.Cost)
+                }).ToListAsync();
+
+            return serviceResponse;
+        }
    }
 }
