@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using my_expense_api.Data;
 using my_expense_api.Services.AnalyticsService;
 using my_expense_api.Services.CategoryService;
 using my_expense_api.Services.ExpenseService;
+using Npgsql;
 
 namespace my_expense_api
 {
@@ -36,8 +38,9 @@ namespace my_expense_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
 
             services.AddCors(options => options.AddDefaultPolicy(
