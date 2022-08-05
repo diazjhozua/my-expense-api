@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using my_expense_api.Components.Handlers;
 using my_expense_api.Components.Handlers.Others;
 using my_expense_api.Data;
+using my_expense_api.Services.AnalyticsService;
 using my_expense_api.Services.CategoryService;
 using my_expense_api.Services.ExpenseService;
 
@@ -67,6 +68,7 @@ namespace my_expense_api
                         
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IExpenseService, ExpenseService>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
