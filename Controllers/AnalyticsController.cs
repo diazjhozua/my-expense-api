@@ -25,32 +25,33 @@ namespace my_expense_api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(
-                new 
-                { 
-                    averageExpense = (await _analyticsService.getAverageExpense()).Data, 
-                    budgetLimitThisMonth = (await _analyticsService.getBudgetLimitThisMonth()).Data,
-                    expenseCategorySummaryThisMonth = (await _analyticsService.getExpenseCategorySummaryThisMonth()).Data
-                }
-            );
+            ServiceResponse<dynamic> serviceResponse = new ServiceResponse<dynamic>();
+
+            serviceResponse.Data = new 
+            { 
+                averageExpense = (await _analyticsService.getAverageExpense()).Data, 
+                budgetLimitThisMonth = (await _analyticsService.getBudgetLimitThisMonth()).Data,
+                expenseCategorySummaryThisMonth = (await _analyticsService.getExpenseCategorySummaryThisMonth()).Data
+            };
+            return Ok(serviceResponse);
         }
 
         [HttpGet("averageExpense")]
         public async Task<IActionResult> GetAverageExpense()
         {
-            return Ok((await _analyticsService.getAverageExpense()).Data);
+            return Ok((await _analyticsService.getAverageExpense()));
         } 
 
         [HttpGet("budgetLimitThisMonth")]
         public async Task<IActionResult> GetBudgetLimitThisMonth()
         {
-            return Ok((await _analyticsService.getBudgetLimitThisMonth()).Data);
+            return Ok((await _analyticsService.getBudgetLimitThisMonth()));
         }
 
         [HttpGet("expenseCategorySummaryThisMonth")]
         public async Task<IActionResult> GetExpenseCategorySummaryThisMonth()
         {
-            return Ok((await _analyticsService.getExpenseCategorySummaryThisMonth()).Data);
+            return Ok((await _analyticsService.getExpenseCategorySummaryThisMonth()));
         }                
     }
 }
