@@ -29,11 +29,13 @@ namespace my_expense_api
                 
                 Console.WriteLine("Development yan");
             }
+
+            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.FullName;
          
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup(assemblyName);
                 });
         }
     }
