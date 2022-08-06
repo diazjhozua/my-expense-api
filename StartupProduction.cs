@@ -43,6 +43,11 @@ namespace my_expense_api
 
             services.AddDbContext<DataContext>(x => x.UseNpgsql(Environment.GetEnvironmentVariable("DefaultConnection")));
             
+            Console.WriteLine("Hello");
+            Console.WriteLine(Environment.GetEnvironmentVariable("DefaultConnection"));
+            Console.WriteLine(Environment.GetEnvironmentVariable("AllowedHost"));
+            Console.WriteLine(Environment.GetEnvironmentVariable("Token"));
+
             services.AddControllers();
 
             services.AddCors(options => options.AddDefaultPolicy(

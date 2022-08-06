@@ -66,7 +66,7 @@ namespace my_expense_api
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                        .GetBytes(Environment.GetEnvironmentVariable(configuration["Token"]))),
+                        .GetBytes(configuration["Token"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
