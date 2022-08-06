@@ -26,16 +26,12 @@ namespace my_expense_api
                 DotNetEnv.Env.Load();
             } else {
                 DotNetEnv.Env.Load(".env.Development");
-                
-                Console.WriteLine("Development yan");
             }
-
-            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.FullName;
          
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup(assemblyName);
+                    webBuilder.UseStartup<Startup>();
                 });
         }
     }

@@ -27,7 +27,7 @@ namespace my_expense_api.Data
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         protected readonly IHandler _handler;
-      
+
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IMapper mapper, IHandler handler)
@@ -81,7 +81,7 @@ namespace my_expense_api.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
+            Console.WriteLine("heas");
 
             await _context.Users.AddAsync(user);
             await _context.Categories.AddAsync(new Category{Name= "School", Limit=3200, User=user});
@@ -128,7 +128,7 @@ namespace my_expense_api.Data
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
+            Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Token"))
             );
 
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
