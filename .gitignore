@@ -393,6 +393,11 @@ FodyWeavers.xsd
 # Local History for Visual Studio Code
 .history/
 
+# Env files
+.env
+.env.Development
+.Properties/launchSettings.json
+
 # Windows Installer files from build outputs
 *.cab
 *.msi

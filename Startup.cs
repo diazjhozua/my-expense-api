@@ -33,18 +33,26 @@ namespace my_expense_api
             Configuration = configuration;
         }
 
+
         public IConfiguration Configuration { get; }
+
+        private IConfiguration BuildServiceProvider(IServiceCollection services) {
+            return services.BuildServiceProvider().GetService<IConfiguration>();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            IConfiguration configuration = BuildServiceProvider(services);
+
+            services.AddDbContext<DataContext>(x => x.UseNpgsql(configuration["DefaultConnection"]));
+            
+
             services.AddControllers();
 
             services.AddCors(options => options.AddDefaultPolicy(
-                builder => builder.WithOrigins(Configuration.GetSection("AllowedHost").Value).AllowAnyHeader().AllowAnyMethod()
+                builder => builder.WithOrigins(configuration["AllowedHost"]).AllowAnyHeader().AllowAnyMethod()
             ));
 
             services.AddAutoMapper(typeof(Startup));
@@ -58,13 +66,14 @@ namespace my_expense_api
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                        .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        .GetBytes(Environment.GetEnvironmentVariable(configuration["Token"]))),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                 };
             });
+            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IHandler, Handler>();
             services.AddScoped<IUtilityService, UtilityService>();
