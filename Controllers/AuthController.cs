@@ -24,6 +24,7 @@ namespace my_expense_api.Controllers
             _authRepo = authRepo;
         }
 
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDTO request) {
             ServiceResponse<int> response = await _authRepo.Register(
