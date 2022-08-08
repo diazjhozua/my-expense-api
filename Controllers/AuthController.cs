@@ -34,6 +34,7 @@ namespace my_expense_api.Controllers
             {
                 return BadRequest(response);
             } 
+            
             return Ok(response);
         }
         
@@ -47,7 +48,6 @@ namespace my_expense_api.Controllers
             {
                 return Unauthorized(response);
             }
-
 
             return Ok(response);
         }

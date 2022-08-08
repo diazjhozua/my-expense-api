@@ -44,7 +44,7 @@ namespace my_expense_api
             services.AddControllers();
 
             services.AddCors(options => options.AddDefaultPolicy(
-                builder => builder.WithOrigins(Environment.GetEnvironmentVariable("AllowedHost")).AllowAnyHeader().AllowAnyMethod()
+                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
             ));
 
             services.AddAutoMapper(typeof(Startup));
