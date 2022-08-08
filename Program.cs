@@ -20,16 +20,13 @@ namespace my_expense_api
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            DotNetEnv.Env.Load(".env.Development");
-
-            // string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            // if (environment != "Development") {
-            //     DotNetEnv.Env.Load();
-            // } else {
-            //     DotNetEnv.Env.Load(".env.Development");
-            // }
+            if (environment != "Development") {
+                DotNetEnv.Env.Load();
+            } else {
+                DotNetEnv.Env.Load(".env.Development");
+            }
          
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
